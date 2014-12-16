@@ -10,10 +10,10 @@ Inputs = [ones(n_inst,1) Inputs];
 % initialize random weights:
 W = (2*w_max).*rand(n_in,1)-w_max;
 dW = zeros(size(W));
-err = 0;
 
 % train for specified epochs:
 for i = 1:n_epoch
+	err = 0;
 	% iterate over each training instance:
 	for d = 1:n_inst
 		x = Input(d,:);
