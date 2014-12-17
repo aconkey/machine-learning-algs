@@ -6,6 +6,7 @@ function [err] = gd_stoch(Inputs,Targets,eta,n_epoch)
 
 	% concatenate a column for bias node:
 	Inputs = [ones(n_inst,1) Inputs];
+	Outputs = zeros(size(Targets));
 
 	% initialize small random weights
 	W = (2*w_max).*rand(n_in+1,1)-w_max;
@@ -16,10 +17,9 @@ function [err] = gd_stoch(Inputs,Targets,eta,n_epoch)
 		% iterate over each training instance
 		for d = 1:n_inst
 			x = Inputs(d,:);
-			targ_d = Targets(d,:);
-			out_d = x*W;
-			W = W+eta.*(targ_d-out_d).*x';
-			err = err+0.5.*(targ_d-out_d).^2;
+			Outputs(d,:) = x*W;
+			W = W+eta.*(Targets(d)-Outputs(d)).*x';
+			err = err+0.5.*(Targets(d)-Outputs(d)).^2;
 		end
 	end
 end
