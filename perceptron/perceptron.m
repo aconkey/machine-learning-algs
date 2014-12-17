@@ -8,8 +8,7 @@ function [perc_correct] = perceptron(Inputs,Targets,eta,n_epoch)
 	Inputs = [ones(n_inst,1) Inputs];
 
 	% initialize random weights:
-	W = (2*w_max).*rand(n_in,1)-w_max;
-	dW = zeros(size(W));
+	W = (2*w_max).*rand(n_in+1,1)-w_max;
 	
 	% train for specified epochs:
 	for i = 1:n_epoch
@@ -20,15 +19,17 @@ function [perc_correct] = perceptron(Inputs,Targets,eta,n_epoch)
 			targ_d = Targets(d,:);
 			% threshold the output:
 			out_d = sign(x*W);
-			if (out_d == 0)
+			if out_d == 0
 				out_d = -1;
+			end
 			% update weights:
 			dW = eta.*(targ_d-out_d).*x;
-			W = W+dW;
+			W = W+dW';
 			
-			if (out_d == targ_d)
+			if out_d == targ_d
 				correct = correct+1;
+			end
 		end
 	end
-	perc_correct = correct/n_inst
+	perc_correct = correct/n_inst*100;
 end
