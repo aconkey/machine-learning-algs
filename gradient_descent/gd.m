@@ -8,20 +8,20 @@ function [err] = gd(Inputs,Targets,eta,n_epoch)
 	Inputs = [ones(n_inst,1) Inputs];
 
 	% initialize random weights:
-	W = (2*w_max).*rand(n_in,1)-w_max;
-	dW = zeros(size(W));
+	W = (2*w_max).*rand(n_in+1,1)-w_max;
 
 	% train for specified epochs:
 	for i = 1:n_epoch
+		dW = zeros(size(W));
 		err = 0;
 		% iterate over each training instance:
 		for d = 1:n_inst
-			x = Input(d,:);
+			x = Inputs(d,:);
 			targ_d = Targets(d,:);
 			out_d = x*W;
-			dW = dW + eta.*(targ_d-out_d).*x;
-			err = err + 0.5*(targ_d-out_d)^2
+			dW = dW+eta.*(targ_d-out_d).*x';
+			err = err+0.5.*(targ_d-out_d).^2;
 		end
-		W = W + dW;
+		W = W+dW;
 	end
 end

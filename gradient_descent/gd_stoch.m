@@ -8,7 +8,7 @@ function [err] = gd_stoch(Inputs,Targets,eta,n_epoch)
 	Inputs = [ones(n_inst,1) Inputs];
 
 	% initialize small random weights
-	W = (2*w_max).*rand(n_in,1)-w_max;
+	W = (2*w_max).*rand(n_in+1,1)-w_max;
 
 	% train for specified epochs:
 	for i = 1:n_epoch
@@ -18,8 +18,8 @@ function [err] = gd_stoch(Inputs,Targets,eta,n_epoch)
 			x = Inputs(d,:);
 			targ_d = Targets(d,:);
 			out_d = x*W;
-			W = W + eta.*(targ_d-out_d).*x;
-			err = err + 0.5*(targ_d-out_d)^2;
+			W = W+eta.*(targ_d-out_d).*x';
+			err = err+0.5.*(targ_d-out_d).^2;
 		end
 	end
 end
