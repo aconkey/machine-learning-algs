@@ -6,6 +6,7 @@ function [perc_correct] = perceptron(Inputs,Targets,eta,n_epoch)
 
 	% concatenate a column for bias node:
 	Inputs = [ones(n_inst,1) Inputs];
+	Outputs = zeros(size(Targets));
 
 	% initialize random weights:
 	W = (2*w_max).*rand(n_in+1,1)-w_max;
@@ -16,17 +17,16 @@ function [perc_correct] = perceptron(Inputs,Targets,eta,n_epoch)
 		% iterate over each training instance:
 		for d = 1:n_inst
 			x = Inputs(d,:);
-			targ_d = Targets(d,:);
 			% threshold the output:
-			out_d = sign(x*W);
-			if out_d == 0
-				out_d = -1;
+			Outputs(d) = sign(x*W);
+			if Outputs(d) == 0
+				Outputs(d) = -1;
 			end
 			% update weights:
-			dW = eta.*(targ_d-out_d).*x;
+			dW = eta.*(Targets(d)-Outputs(d)).*x;
 			W = W+dW';
 			
-			if out_d == targ_d
+			if Outputs(d) == Targets(d)
 				correct = correct+1;
 			end
 		end
