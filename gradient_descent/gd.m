@@ -23,5 +23,10 @@ function [err] = gd(Inputs,Targets,eta,n_epoch)
 			err = err+0.5.*(Targets(d)-Outputs(d)).^2;
 		end
 		W = W+dW;
+		
+		% shuffle data:
+		p = randperm(n_inst);
+		Inputs = Inputs(p,:);
+		Targets = Targets(p,:);
 	end
 end
