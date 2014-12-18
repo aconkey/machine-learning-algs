@@ -17,9 +17,14 @@ function [err] = gd_stoch(Inputs,Targets,eta,n_epoch)
 		% iterate over each training instance
 		for d = 1:n_inst
 			x = Inputs(d,:);
-			Outputs(d,:) = x*W;
+			Outputs(d) = x*W;
 			W = W+eta.*(Targets(d)-Outputs(d)).*x';
 			err = err+0.5.*(Targets(d)-Outputs(d)).^2;
 		end
+		
+		% shuffle data:
+		p = randperm(n_inst);
+		Inputs = Inputs(p,:);
+		Targets = Targets(p,:);
 	end
 end
