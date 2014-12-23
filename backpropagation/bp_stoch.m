@@ -29,7 +29,7 @@ function [err] = bp_stoch(Inputs,Targets,n_hid,n_out,eta,n_epoch)
 			% compute error:
 			for k = 1:n_out
 				err = err+0.5.*(Targets(d,k)-Act_out(k)).^2;
-    		end
+			end
 		end
 	end
 end
